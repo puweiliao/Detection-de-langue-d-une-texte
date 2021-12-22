@@ -1,0 +1,1894 @@
+---
+title: "Untitled"
+author: "LIAO Puwei && ZHANG Shurong"
+date: "11/24/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+setwd("~/M2/unsuper machine learning/text")
+library(tidyverse)
+A1_eng <- read_file("you raise me up 11.txt")
+A2_eng <- read_file("we are the chapmpions 10.txt")
+A3_eng <- read_file("rolling in the deep 3.txt")
+A4_eng <- read_file("someone like you4.txt")
+A5_eng <- read_file("another day of sun 5.txt")
+A6_eng <- read_file("as long as u love me 6.txt")
+A7_eng <- read_file("in the end 7.txt")
+A8_eng <- read_file("numb 8.txt")
+A9_eng <- read_file("my love 9.txt")
+A10_eng <- read_file("we are the chapmpions 10.txt")
+A11_eng <- read_file("you raise me up 11.txt")
+A12_eng <- read_file("natural 12.txt")
+A13_eng <- read_file("sugar 13.txt")
+A14_eng <- read_file("let it go 14.txt")
+A15_eng <- read_file("suzanne.txt")
+F1_fren <- read_file("text1.txt")
+F2_fren <- read_file("text2.txt")
+F3_fren <- read_file("text3.txt")
+F4_fren <- read_file("text4.txt")
+F5_fren <- read_file("text5.txt")
+F6_fren <- read_file("text6.txt")
+F7_fren <- read_file("text7.txt")
+F8_fren <- read_file("text8.txt")
+F9_fren <- read_file("text9.txt")
+F10_fren <- read_file("text10.txt")
+F11_fren <- read_file("text11.txt")
+F12_fren <- read_file("text12.txt")
+F13_fren <- read_file("text13.txt")
+F14_fren <- read_file("text14.txt")
+F15_fren <- read_file("text15.txt")
+```
+
+```{r}
+langue=c(A1_eng,A2_eng,A3_eng,A4_eng,A5_eng,A6_eng,A7_eng,A8_eng,A9_eng,A10_eng,A11_eng,A12_eng,A13_eng,A14_eng,A15_eng,F1_fren,F2_fren,F3_fren,F4_fren,F5_fren,F6_fren,F7_fren,F8_fren,F9_fren,F10_fren,F11_fren,F12_fren,F13_fren,F14_fren,F15_fren)
+
+class=c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1)
+
+langue_text=data.frame(langue,class)
+```
+
+
+```{r}
+f<-matrix(1:(30*43), ncol=43, nrow=30, byrow=FALSE)
+for (i in 1:30) {
+    temp=nchar(langue[i])
+    T<- langue[i]%>% paste(collapse=" ") %>%
+  # tokenize by character (strsplit returns a list, so unlist it)
+    strsplit(split="") %>% unlist %>% 
+  # remove instances of characters you don't care about
+    str_remove_all("[,.!'\"]")  %>% 
+    str_to_lower()
+    table(T)
+    
+    char_counts <- T %>% paste(collapse="") %>% 
+    strsplit(split="") %>% unlist %>% `[`(!. %in% c("", " ", ".", ",")) %>%
+    str_remove_all("[ \n - ; : ? … -  ( ) ,  ' ’ - 0 1 2 3 4 5 6 7 8 9 .!'\"]")  %>% 
+    table
+
+    counts_df <- data.frame(
+    char = names(char_counts), 
+    count = as.numeric(char_counts), 
+    stringsAsFactors=FALSE)
+    
+    if(length(counts_df$count[which(counts_df$char=="a")])==0){
+       f[i,1]=0
+    }else{
+       f[i,1]=counts_df$count[which(counts_df$char=="a")]
+    }
+    
+    if(length(counts_df$count[which(counts_df$char=="b")])==0){
+       f[i,2]=0
+    }else{
+       f[i,2]=counts_df$count[which(counts_df$char=="b")]
+    }
+    
+    if(length(counts_df$count[which(counts_df$char=="c")])==0){
+       f[i,3]=0
+    }else{
+       f[i,3]=counts_df$count[which(counts_df$char=="c")]
+    }
+    
+    
+    if(length(counts_df$count[which(counts_df$char=="d")])==0){
+       f[i,4]=0
+    }else{
+       f[i,4]=counts_df$count[which(counts_df$char=="d")]
+    }
+    
+    
+    if(length(counts_df$count[which(counts_df$char=="e")])==0){
+       f[i,5]=0
+    }else{
+       f[i,5]=counts_df$count[which(counts_df$char=="e")]
+    }
+    
+    
+    if(length(counts_df$count[which(counts_df$char=="f")])==0){
+       f[i,6]=0
+    }else{
+       f[i,6]=counts_df$count[which(counts_df$char=="f")]
+    }
+    
+    if(length(counts_df$count[which(counts_df$char=="g")])==0){
+       f[i,7]=0
+    }else{
+       f[i,7]=counts_df$count[which(counts_df$char=="g")]
+    }
+    
+    if(length(counts_df$count[which(counts_df$char=="h")])==0){
+       f[i,8]=0
+    }else{
+       f[i,8]=counts_df$count[which(counts_df$char=="h")]
+    }
+    
+    if(length(counts_df$count[which(counts_df$char=="i")])==0){
+       f[i,9]=0
+    }else{
+       f[i,9]=counts_df$count[which(counts_df$char=="i")]
+    }
+    
+    if(length(counts_df$count[which(counts_df$char=="j")])==0){
+       f[i,10]=0
+    }else{
+       f[i,10]=counts_df$count[which(counts_df$char=="j")]
+    }
+   
+    if(length(counts_df$count[which(counts_df$char=="k")])==0){
+       f[i,11]=0
+    }else{
+       f[i,11]=counts_df$count[which(counts_df$char=="k")]
+    }
+    
+    if(length(counts_df$count[which(counts_df$char=="l")])==0){
+       f[i,12]=0
+    }else{
+       f[i,12]=counts_df$count[which(counts_df$char=="l")]
+    }
+    
+    if(length(counts_df$count[which(counts_df$char=="m")])==0){
+       f[i,13]=0
+    }else{
+       f[i,13]=counts_df$count[which(counts_df$char=="m")]
+    }
+    
+    if(length(counts_df$count[which(counts_df$char=="n")])==0){
+       f[i,14]=0
+    }else{
+       f[i,14]=counts_df$count[which(counts_df$char=="n")]
+    }
+    
+    if(length(counts_df$count[which(counts_df$char=="o")])==0){
+       f[i,15]=0
+    }else{
+       f[i,15]=counts_df$count[which(counts_df$char=="o")]
+    }
+    
+    if(length(counts_df$count[which(counts_df$char=="p")])==0){
+       f[i,16]=0
+    }else{
+       f[i,16]=counts_df$count[which(counts_df$char=="p")]
+    }
+    
+    if(length(counts_df$count[which(counts_df$char=="q")])==0){
+       f[i,17]=0
+    }else{
+       f[i,17]=counts_df$count[which(counts_df$char=="q")]
+    }
+    
+    if(length(counts_df$count[which(counts_df$char=="r")])==0){
+       f[i,18]=0
+    }else{
+       f[i,18]=counts_df$count[which(counts_df$char=="r")]
+    }
+    
+    if(length(counts_df$count[which(counts_df$char=="s")])==0){
+       f[i,19]=0
+    }else{
+       f[i,19]=counts_df$count[which(counts_df$char=="s")]
+    }
+    
+    if(length(counts_df$count[which(counts_df$char=="t")])==0){
+       f[i,20]=0
+    }else{
+       f[i,20]=counts_df$count[which(counts_df$char=="t")]
+    }
+    
+    if(length(counts_df$count[which(counts_df$char=="u")])==0){
+       f[i,21]=0
+    }else{
+       f[i,21]=counts_df$count[which(counts_df$char=="u")]
+    }
+    
+    if(length(counts_df$count[which(counts_df$char=="v")])==0){
+       f[i,22]=0
+    }else{
+       f[i,22]=counts_df$count[which(counts_df$char=="v")]
+    }
+    
+    if(length(counts_df$count[which(counts_df$char=="w")])==0){
+       f[i,23]=0
+    }else{
+       f[i,23]=counts_df$count[which(counts_df$char=="w")]
+    }
+    
+    if(length(counts_df$count[which(counts_df$char=="x")])==0){
+       f[i,24]=0
+    }else{
+       f[i,24]=counts_df$count[which(counts_df$char=="x")]
+    }
+    
+    if(length(counts_df$count[which(counts_df$char=="y")])==0){
+       f[i,25]=0
+    }else{
+       f[i,25]=counts_df$count[which(counts_df$char=="y")]
+    }
+    
+    if(length(counts_df$count[which(counts_df$char=="z")])==0){
+       f[i,26]=0
+    }else{
+       f[i,26]=counts_df$count[which(counts_df$char=="z")]
+    }
+    
+    if(length(counts_df$count[which(counts_df$char=="à")])==0){
+       f[i,27]=0
+    }else{
+       f[i,27]=counts_df$count[which(counts_df$char=="à")]
+    }
+    
+    if(length(counts_df$count[which(counts_df$char=="â")])==0){
+       f[i,28]=0
+    }else{
+       f[i,28]=counts_df$count[which(counts_df$char=="â")]
+    }
+    
+    
+    if(length(counts_df$count[which(counts_df$char=="æ")])==0){
+       f[i,29]=0
+    }else{
+       f[i,29]=counts_df$count[which(counts_df$char=="æ")]
+    }
+    
+    
+    if(length(counts_df$count[which(counts_df$char=="ç")])==0){
+       f[i,30]=0
+    }else{
+       f[i,30]=counts_df$count[which(counts_df$char=="ç")]
+    }
+    
+    
+    if(length(counts_df$count[which(counts_df$char=="é")])==0){
+       f[i,31]=0
+    }else{
+       f[i,31]=counts_df$count[which(counts_df$char=="é")]
+    }
+    
+    
+    if(length(counts_df$count[which(counts_df$char=="è")])==0){
+       f[i,32]=0
+    }else{
+       f[i,32]=counts_df$count[which(counts_df$char=="è")]
+    }
+    
+    
+    if(length(counts_df$count[which(counts_df$char=="ê")])==0){
+       f[i,33]=0
+    }else{
+       f[i,33]=counts_df$count[which(counts_df$char=="ê")]
+    }
+    
+    
+    if(length(counts_df$count[which(counts_df$char=="ë")])==0){
+       f[i,34]=0
+    }else{
+       f[i,34]=counts_df$count[which(counts_df$char=="ë")]
+    }
+    
+    
+    if(length(counts_df$count[which(counts_df$char=="î")])==0){
+       f[i,35]=0
+    }else{
+       f[i,35]=counts_df$count[which(counts_df$char=="î")]
+    }
+    
+    
+    if(length(counts_df$count[which(counts_df$char=="ï")])==0){
+       f[i,36]=0
+    }else{
+       f[i,36]=counts_df$count[which(counts_df$char=="ï")]
+    }
+    
+    
+    if(length(counts_df$count[which(counts_df$char=="ô")])==0){
+       f[i,37]=0
+    }else{
+       f[i,37]=counts_df$count[which(counts_df$char=="ô")]
+    }
+    
+    
+    if(length(counts_df$count[which(counts_df$char=="œ")])==0){
+       f[i,38]=0
+    }else{
+       f[i,38]=counts_df$count[which(counts_df$char=="œ")]
+    }
+    
+    
+    if(length(counts_df$count[which(counts_df$char=="ù")])==0){
+       f[i,39]=0
+    }else{
+       f[i,39]=counts_df$count[which(counts_df$char=="ù")]
+    }
+    
+    
+    if(length(counts_df$count[which(counts_df$char=="û")])==0){
+       f[i,40]=0
+    }else{
+       f[i,40]=counts_df$count[which(counts_df$char=="û")]
+    }
+    
+    
+    if(length(counts_df$count[which(counts_df$char=="ü")])==0){
+       f[i,41]=0
+    }else{
+       f[i,41]=counts_df$count[which(counts_df$char=="ü")]
+    }
+    
+    
+    if(length(counts_df$count[which(counts_df$char=="ÿ")])==0){
+       f[i,42]=0
+    }else{
+       f[i,42]=counts_df$count[which(counts_df$char=="ÿ")]
+    }
+    
+    temp2=temp-sum(f[i,1:42])
+    if(temp==0){
+       f[i,43]=0
+    }else{
+       f[i,43]=temp
+    }
+
+}
+
+```
+
+```{r}
+f[5,31]=0
+F_21=f
+f=prop.table(f,1)
+X=log(1+f)
+```
+
+```{r}
+name=c("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",'à','â','æ','ç','é','è','ê','ë','î','ï','ô','œ','ù','û','ü','ÿ','E')
+
+English_data=f[1:15,]
+English=apply(English_data, 2, sum)
+English=English/sum(English)
+
+French_data=f[16:30,]
+French=apply(French_data, 2, sum)
+French=French/sum(French)
+
+barplot(log(1+English),names=name,main="English")
+barplot(log(1+French),names=name,main="French")
+```
+
+
+Exo 2 Naive Bayes
+
+
+2.1
+
+```{r}
+mean_Fren=rep(0,43)
+for (i in 1:43) {
+  mean_Fren[i]=mean(F_21[1:15,i])
+}
+
+mean_Eng=rep(0,43)
+for (i in 1:43) {
+  mean_Eng[i]=mean(F_21[16:30,i])
+}
+
+
+var_Fren=rep(0,43)
+for (i in 1:43) {
+  var_Fren[i]=var(F_21[1:15,i])
+}
+
+var_Eng=rep(0,43)
+for (i in 1:43) {
+  var_Eng[i]=var(F_21[16:30,i])
+}
+```
+
+
+2.2
+
+```{r}
+tablogfre<-data.frame(X)
+colnames(tablogfre)<-name
+```
+
+
+ClassifierBayes à la main
+
+
+```{r}
+library(stopwords)
+library(tokenizers)
+library(SnowballC)
+library(dplyr)
+
+
+calc_Probs <- function(tokens) {
+  counts <- table(unlist(tokens)) + 1
+  (counts/sum(counts))
+}
+
+
+ClassifierBayes<-function(train,test){
+  train_sub<-subset(train)
+  init_french <- (table(train_sub$class) / sum(table(train_sub$class)))[1]
+  init_english <- (table(train_sub$class) / sum(table(train_sub$class)))[2]
+  train_sub$langue <- (tokenize_words(train_sub$langue,
+                               lowercase = TRUE,
+                               strip_punct = TRUE,
+                               strip_numeric = TRUE,
+                               stopwords = stopwords::stopwords("en")))
+  Eng_data <- subset(train_sub, class == 1)
+  Fren_data <- subset(train_sub, class == -1)
+  Eng_probs <- calc_Probs(Eng_data$langue)
+  Fren_probs <- calc_Probs(Fren_data$langue)
+  
+  test_v2<-unlist(tokenize_words(test$langue,
+                         lowercase = TRUE,
+                         strip_punct = TRUE,
+                         strip_numeric = TRUE,
+                         stopwords = stopwords::stopwords("en")))
+  
+  
+  
+  Eng_probs_test=Eng_probs[test_v2]
+  Eng_probs_test[is.na(Eng_probs_test)] <- 1
+  
+  
+  Fren_probs_test=Fren_probs[test_v2]
+  Fren_probs_test[is.na(Fren_probs_test)] <- 1
+  
+  
+  Eng_pred<-init_english*prod(Eng_probs_test)
+  Fren_pred<-init_french*prod(Fren_probs_test)
+  
+  if (Eng_pred < Fren_pred){
+    return(1)
+  } else {
+    return (-1)
+  }
+  
+}
+
+
+test_classifierbayes<-function(train,test){
+  if(ClassifierBayes(train,test)==test$class){
+    return (1)
+  }
+  else{
+    return(0)
+  }
+}
+
+```
+
+
+ClassifierBayes par librairie standard
+
+```{r}
+library(e1071)
+library(gmodels)
+train_ordre<-sample(nrow(tablogfre),22,replace = FALSE)
+train<-tablogfre[train_ordre,]
+test<-tablogfre[-train_ordre,]
+test_class<-class[-train_ordre]
+classtrain<-class[train_ordre]
+bayes<-naiveBayes(train,classtrain)
+pred<-predict(bayes,test)
+CrossTable(test_class,pred)
+```
+
+2.3
+Cross validation de ClassifierBayes par librairie standard
+```{r}
+require(caret)
+folds <- createFolds(y=class,k=10)
+
+for(i in 1:10){
+  fold_test <- tablogfre[folds[[i]],] 
+  fold_train <- tablogfre[-folds[[i]],] 
+  fold_test_class<-class[folds[[i]]]
+  fold_train_class<-class[-folds[[i]]]
+  
+  fold_bayes<-naiveBayes(fold_train,fold_train_class)
+  fold_pred<-predict(fold_bayes,fold_test)
+  res1=length((fold_pred==fold_test_class)[(fold_pred==fold_test_class)==TRUE])
+  res2=length(fold_pred==fold_test_class)
+  
+  cat("le nombre de classification correste est:",res1,"/",res2,"\n")
+  
+}
+
+```
+
+
+Cross validation de ClassifierBayes à la main
+
+
+```{r}
+require(caret)
+folds <- createFolds(y=class,k=10)
+
+for(i in 1:10){
+  res=0
+  cpt=0
+  for (j in 1:length(folds[[i]])) {
+    res=res+test_classifierbayes(langue_text[-folds[[i]],],langue_text[folds[[i]][j],])
+    cpt=cpt+1
+  }
+  
+  cat("le nombre de classification correste est:",res,"/",cpt,"\n")
+  
+}
+
+```
+
+
+
+
+
+EXO3 Classifieur markovien
+
+Estimation de Loi initial(English)
+
+```{r}
+Pi_Eng=rep(0,27)
+
+
+
+for (i in 1:15) {
+  T<-c(" ",langue[i]) %>% paste(collapse="") %>% 
+  strsplit(split="") %>% unlist %>% 
+   str_remove_all("[ \n - ; : ? … -  ( ) ,  ' ’ - 0 1 2 3 4 5 6 7 8 9 .!'\"]")  %>% 
+   str_to_lower()
+  
+  T=dplyr::na_if(T, "")
+
+  T[is.na(T)] <- 0
+  
+  for (j in 1:(length(T)-1)){
+    if(T[j]=='0' & T[j+1]=="a"){
+        Pi_Eng[1]=Pi_Eng[1]+1
+    }
+    
+    
+    if(T[j]=='0' & T[j+1]=="b"){
+        Pi_Eng[2]=Pi_Eng[2]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="c"){
+        Pi_Eng[3]=Pi_Eng[3]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="d"){
+        Pi_Eng[4]=Pi_Eng[4]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="e"){
+        Pi_Eng[5]=Pi_Eng[5]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="f"){
+        Pi_Eng[6]=Pi_Eng[6]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="g"){
+        Pi_Eng[7]=Pi_Eng[7]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="h"){
+        Pi_Eng[8]=Pi_Eng[8]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="i"){
+        Pi_Eng[9]=Pi_Eng[9]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="j"){
+        Pi_Eng[10]=Pi_Eng[10]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="k"){
+        Pi_Eng[11]=Pi_Eng[11]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="l"){
+        Pi_Eng[12]=Pi_Eng[12]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="m"){
+        Pi_Eng[13]=Pi_Eng[13]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="n"){
+        Pi_Eng[14]=Pi_Eng[14]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="o"){
+        Pi_Eng[15]=Pi_Eng[15]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="p"){
+        Pi_Eng[16]=Pi_Eng[16]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="q"){
+        Pi_Eng[17]=Pi_Eng[17]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="r"){
+        Pi_Eng[18]=Pi_Eng[18]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="s"){
+        Pi_Eng[19]=Pi_Eng[19]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="t"){
+        Pi_Eng[20]=Pi_Eng[20]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="u"){
+        Pi_Eng[21]=Pi_Eng[21]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="v"){
+        Pi_Eng[22]=Pi_Eng[22]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="w"){
+        Pi_Eng[23]=Pi_Eng[23]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="x"){
+        Pi_Eng[24]=Pi_Eng[24]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="y"){
+        Pi_Eng[25]=Pi_Eng[25]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="z"){
+        Pi_Eng[26]=Pi_Eng[26]+1
+    }
+    
+    
+    
+  }
+  
+}
+
+```
+
+
+```{r}
+Pi_Fren=rep(0,43)
+
+
+
+for (i in 16:30) {
+  T<-c(" ",langue[i]) %>% paste(collapse="") %>% 
+  strsplit(split="") %>% unlist %>% 
+   str_remove_all("[ \n - ; : ? … -  ( ) ,  ' ’ - 0 1 2 3 4 5 6 7 8 9 .!'\"]")  %>% 
+   str_to_lower()
+  
+  T=dplyr::na_if(T, "")
+
+  T[is.na(T)] <- 0
+  
+  for (j in 1:(length(T)-1)){
+    if(T[j]=='0' & T[j+1]=="a"){
+        Pi_Fren[1]=Pi_Fren[1]+1
+    }
+    
+    
+    if(T[j]=='0' & T[j+1]=="b"){
+        Pi_Fren[2]=Pi_Fren[2]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="c"){
+        Pi_Fren[3]=Pi_Fren[3]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="d"){
+        Pi_Fren[4]=Pi_Fren[4]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="e"){
+        Pi_Fren[5]=Pi_Fren[5]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="f"){
+        Pi_Fren[6]=Pi_Fren[6]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="g"){
+        Pi_Fren[7]=Pi_Fren[7]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="h"){
+        Pi_Fren[8]=Pi_Fren[8]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="i"){
+        Pi_Fren[9]=Pi_Fren[9]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="j"){
+        Pi_Fren[10]=Pi_Fren[10]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="k"){
+        Pi_Fren[11]=Pi_Fren[11]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="l"){
+        Pi_Fren[12]=Pi_Fren[12]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="m"){
+        Pi_Fren[13]=Pi_Fren[13]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="n"){
+        Pi_Fren[14]=Pi_Fren[14]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="o"){
+        Pi_Fren[15]=Pi_Fren[15]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="p"){
+        Pi_Fren[16]=Pi_Fren[16]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="q"){
+        Pi_Fren[17]=Pi_Fren[17]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="r"){
+        Pi_Fren[18]=Pi_Fren[18]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="s"){
+        Pi_Fren[19]=Pi_Fren[19]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="t"){
+        Pi_Fren[20]=Pi_Fren[20]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="u"){
+        Pi_Fren[21]=Pi_Fren[21]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="v"){
+        Pi_Fren[22]=Pi_Fren[22]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="w"){
+        Pi_Fren[23]=Pi_Fren[23]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="x"){
+        Pi_Fren[24]=Pi_Fren[24]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="y"){
+        Pi_Fren[25]=Pi_Fren[25]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="z"){
+        Pi_Fren[26]=Pi_Fren[26]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="à"){
+        Pi_Fren[27]=Pi_Fren[27]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="â"){
+        Pi_Fren[28]=Pi_Fren[28]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="æ"){
+        Pi_Fren[29]=Pi_Fren[29]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="é"){
+        Pi_Fren[31]=Pi_Fren[31]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="è"){
+        Pi_Fren[32]=Pi_Fren[32]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="ê"){
+        Pi_Fren[33]=Pi_Fren[33]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="ë"){
+        Pi_Fren[34]=Pi_Fren[34]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="î"){
+        Pi_Fren[35]=Pi_Fren[35]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="ï"){
+        Pi_Fren[36]=Pi_Fren[36]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="ô"){
+        Pi_Fren[37]=Pi_Fren[37]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="œ"){
+        Pi_Fren[38]=Pi_Fren[38]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="ù"){
+        Pi_Fren[39]=Pi_Fren[39]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="û"){
+        Pi_Fren[40]=Pi_Fren[40]+1
+    }
+    
+  
+    if(T[j]=='0' & T[j+1]=="ü"){
+        Pi_Fren[41]=Pi_Fren[41]+1
+    }
+    
+    if(T[j]=='0' & T[j+1]=="ÿ"){
+        Pi_Fren[42]=Pi_Fren[42]+1
+    }
+    
+    }
+  
+}
+```
+
+
+```{r}
+Engfulltext=paste(A1_eng,A2_eng,A3_eng,A4_eng,A5_eng,A6_eng,A7_eng,A8_eng,A9_eng,A10_eng,A11_eng,A12_eng,A13_eng,A14_eng,A15_eng)
+
+Frenfulltext=paste(F1_fren,F2_fren,F3_fren,F4_fren,F5_fren,F6_fren,F7_fren,F8_fren,F9_fren,F10_fren,F11_fren,F12_fren,F13_fren,F14_fren,F15_fren)
+```
+
+
+```{r}
+
+letters=c("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z")
+
+Eng1<-c(" ",Engfulltext) %>% paste(collapse="") %>% 
+  # tokenize by character (strsplit returns a list, so unlist it)
+  strsplit(split="") %>% unlist %>% 
+  # remove instances of characters you don't care about
+   str_remove_all("[,.!'\"]")  %>% 
+   str_to_lower()
+
+Eng2<-c(Engfulltext," ") %>% paste(collapse="") %>% 
+  # tokenize by character (strsplit returns a list, so unlist it)
+  strsplit(split="") %>% unlist %>% 
+  # remove instances of characters you don't care about
+  str_remove_all("[,.!'\"]")  %>% 
+  str_to_lower()
+
+bigrams<-table(Eng2,Eng1)
+
+letters_space<-c(letters," ")
+
+A_Eng<-matrix(0,27,27)
+row.names(A_Eng)<-letters_space
+colnames(A_Eng)<-letters_space
+for (letteri in letters_space)
+  for (letterj in letters_space)
+    if ((letteri %in% row.names(bigrams))&&(letterj %in% row.names(bigrams))) A_Eng[letteri,letterj]<-bigrams[letteri,letterj]
+```
+
+
+
+```{r}
+
+Pi_Eng=Pi_Eng/sum(Pi_Eng)
+A_Eng=apply(A_Eng, 1, function(x) x/sum(x))
+```
+
+
+```{r}
+letters2=c("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",'à','â','æ','ç','é','è','ê','ë','î','ï','ô','œ','ù','û','ü','ÿ')
+letters_space2<-c(letters2," ")
+Fren1<-c(" ",Frenfulltext) %>% paste(collapse="") %>% 
+  # tokenize by character (strsplit returns a list, so unlist it)
+  strsplit(split="") %>% unlist %>% 
+  # remove instances of characters you don't care about
+   str_remove_all("[,.!'\"]")  %>% 
+   str_to_lower()
+
+Fren2<-c(Frenfulltext," ") %>% paste(collapse="") %>% 
+  # tokenize by character (strsplit returns a list, so unlist it)
+  strsplit(split="") %>% unlist %>% 
+  # remove instances of characters you don't care about
+  str_remove_all("[,.!'\"]")  %>% 
+  str_to_lower()
+
+bigrams2<-table(Fren2,Fren1)
+
+A_Fren<-matrix(0,43,43)
+row.names(A_Fren)<-letters_space2
+colnames(A_Fren)<-letters_space2
+for (letteri in letters_space2)
+  for (letterj in letters_space2)
+    if ((letteri %in% row.names(bigrams2))&&(letterj %in% row.names(bigrams2))) A_Fren[letteri,letterj]<-bigrams2[letteri,letterj]
+```
+
+
+```{r}
+
+Pi_Fren=Pi_Fren/sum(Pi_Fren)
+A_Fren=apply(A_Fren, 1, function(x) x/sum(x))
+A_Fren[is.nan(A_Fren)] = 0
+```
+
+
+3.2
+Classifier Markov
+
+
+```{r}
+Pi_Eng_train<-function(text_train_Eng){
+  Pi_Eng_train<-rep(0,43)
+  n=nrow(text_train_Eng)
+  for (i in 1:n) {
+    if(text_train_Eng[i,2]==1){
+      
+      
+      
+      
+      T<-c(" ",text_train_Eng[i,1]) %>% paste(collapse="")%>% strsplit(split="") %>% unlist %>% 
+      str_remove_all("[ \n - ; : ? … -  ( ) ,  ' ’ - 0 1 2 3 4 5 6 7 8 9 .!'\"]")  %>% 
+      str_to_lower()
+  
+      T=dplyr::na_if(T, "")
+
+      T[is.na(T)] <- 0
+  
+      for (j in 1:(length(T)-1)){
+        if(T[j]=='0' & T[j+1]=="a"){
+          Pi_Eng_train[1]=Pi_Eng_train[1]+1
+        }
+    
+    
+        if(T[j]=='0' & T[j+1]=="b"){
+          Pi_Eng_train[2]=Pi_Eng_train[2]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="c"){
+          Pi_Eng_train[3]=Pi_Eng_train[3]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="d"){
+          Pi_Eng_train[4]=Pi_Eng_train[4]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="e"){
+          Pi_Eng_train[5]=Pi_Eng_train[5]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="f"){
+          Pi_Eng_train[6]=Pi_Eng_train[6]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="g"){
+          Pi_Eng_train[7]=Pi_Eng_train[7]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="h"){
+          Pi_Eng_train[8]=Pi_Eng_train[8]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="i"){
+          Pi_Eng_train[9]=Pi_Eng_train[9]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="j"){
+          Pi_Eng_train[10]=Pi_Eng_train[10]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="k"){
+          Pi_Eng_train[11]=Pi_Eng_train[11]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="l"){
+          Pi_Eng_train[12]=Pi_Eng_train[12]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="m"){
+          Pi_Eng_train[13]=Pi_Eng_train[13]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="n"){
+          Pi_Eng_train[14]=Pi_Eng_train[14]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="o"){
+          Pi_Eng_train[15]=Pi_Eng_train[15]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="p"){
+          Pi_Eng_train[16]=Pi_Eng_train[16]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="q"){
+          Pi_Eng_train[17]=Pi_Eng_train[17]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="r"){
+          Pi_Eng_train[18]=Pi_Eng_train[18]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="s"){
+          Pi_Eng_train[19]=Pi_Eng_train[19]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="t"){
+          Pi_Eng_train[20]=Pi_Eng_train[20]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="u"){
+          Pi_Eng_train[21]=Pi_Eng_train[21]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="v"){
+          Pi_Eng_train[22]=Pi_Eng_train[22]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="w"){
+          Pi_Eng_train[23]=Pi_Eng_train[23]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="x"){
+          Pi_Eng_train[24]=Pi_Eng_train[24]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="y"){
+          Pi_Eng_train[25]=Pi_Eng_train[25]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="z"){
+          Pi_Eng_train[26]=Pi_Eng_train[26]+1
+        }
+    
+    
+    
+    }
+      
+      
+      
+      
+    }
+    
+  }
+  return(Pi_Eng_train/sum(Pi_Eng_train))
+}
+```
+
+
+
+```{r}
+Pi_Fren_train<-function(text_train_Fren){
+  Pi_Fren_train<-rep(0,43)
+  n=nrow(text_train_Fren)
+  for (i in 1:n) {
+    if(text_train_Fren[i,2]==-1){
+      
+      
+      
+      
+      T<-c(" ",text_train_Fren[i,1]) %>% paste(collapse="")         %>% strsplit(split="") %>% unlist %>% 
+      str_remove_all("[ \n - ; : ? … -  ( ) ,  ' ’ - 0 1 2 3 4       5 6 7 8 9 .!'\"]")  %>% 
+      str_to_lower()
+  
+      T=dplyr::na_if(T, "")
+
+      T[is.na(T)] <- 0
+  
+      for (j in 1:(length(T)-1)){
+        if(T[j]=='0' & T[j+1]=="a"){
+          Pi_Fren_train[1]=Pi_Fren_train[1]+1
+        }
+    
+    
+        if(T[j]=='0' & T[j+1]=="b"){
+          Pi_Fren_train[2]=Pi_Fren_train[2]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="c"){
+          Pi_Fren_train[3]=Pi_Fren_train[3]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="d"){
+          Pi_Fren_train[4]=Pi_Fren_train[4]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="e"){
+          Pi_Fren_train[5]=Pi_Fren_train[5]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="f"){
+          Pi_Fren_train[6]=Pi_Fren_train[6]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="g"){
+          Pi_Fren_train[7]=Pi_Fren_train[7]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="h"){
+          Pi_Fren_train[8]=Pi_Fren_train[8]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="i"){
+          Pi_Fren_train[9]=Pi_Fren_train[9]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="j"){
+          Pi_Fren_train[10]=Pi_Fren_train[10]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="k"){
+          Pi_Fren_train[11]=Pi_Fren_train[11]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="l"){
+          Pi_Fren_train[12]=Pi_Fren_train[12]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="m"){
+          Pi_Fren_train[13]=Pi_Fren_train[13]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="n"){
+          Pi_Fren_train[14]=Pi_Fren_train[14]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="o"){
+          Pi_Fren_train[15]=Pi_Fren_train[15]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="p"){
+          Pi_Fren_train[16]=Pi_Fren_train[16]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="q"){
+          Pi_Fren_train[17]=Pi_Fren_train[17]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="r"){
+          Pi_Fren_train[18]=Pi_Fren_train[18]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="s"){
+          Pi_Fren_train[19]=Pi_Fren_train[19]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="t"){
+          Pi_Fren_train[20]=Pi_Fren_train[20]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="u"){
+          Pi_Fren_train[21]=Pi_Fren_train[21]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="v"){
+          Pi_Fren_train[22]=Pi_Fren_train[22]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="w"){
+          Pi_Fren_train[23]=Pi_Fren_train[23]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="x"){
+          Pi_Fren_train[24]=Pi_Fren_train[24]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="y"){
+          Pi_Fren_train[25]=Pi_Fren_train[25]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="z"){
+          Pi_Fren_train[26]=Pi_Fren_train[26]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="à"){
+          Pi_Fren_train[27]=Pi_Fren_train[27]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="â"){
+          Pi_Fren_train[28]=Pi_Fren_train[28]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="æ"){
+          Pi_Fren_train[29]=Pi_Fren_train[29]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="é"){
+          Pi_Fren_train[31]=Pi_Fren_train[31]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="è"){
+          Pi_Fren_train[32]=Pi_Fren_train[32]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="ê"){
+          Pi_Fren_train[33]=Pi_Fren_train[33]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="ë"){
+          Pi_Fren_train[34]=Pi_Fren_train[34]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="î"){
+          Pi_Fren_train[35]=Pi_Fren_train[35]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="ï"){
+          Pi_Fren_train[36]=Pi_Fren_train[36]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="ô"){
+          Pi_Fren_train[37]=Pi_Fren_train[37]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="œ"){
+          Pi_Fren_train[38]=Pi_Fren_train[38]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="ù"){
+          Pi_Fren_train[39]=Pi_Fren_train[39]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="û"){
+          Pi_Fren_train[40]=Pi_Fren_train[40]+1
+        }
+    
+  
+        if(T[j]=='0' & T[j+1]=="ü"){
+          Pi_Fren_train[41]=Pi_Fren_train[41]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="ÿ"){
+          Pi_Fren_train[42]=Pi_Fren_train[42]+1
+        }
+    
+    
+    }
+      
+      
+      
+      
+    }
+    
+  }
+  return(Pi_Fren_train/sum(Pi_Fren_train))
+}
+```
+
+
+
+```{r}
+
+
+A_Eng_train<-function(text_train_Eng){
+  
+  
+  
+  A_Eng_train<-matrix(0,43,43)
+  n=nrow(text_train_Eng)
+  Engfulltext_train=NaN
+  for (i in 1:n) {
+    if(text_train_Eng[i,2]==1){
+      Engfulltext_train=paste(Engfulltext_train,text_train_Eng[i,1])
+    }
+  }
+  letters2=c("a","b","c","d","e","f","g","h","i","j","k","l","   m","n","o","p","q","r","s","t","u","v","w","x","y","z",'à','   â','æ','ç','é','è','ê','ë','î','ï','ô','œ','ù','û','ü','ÿ')
+  letters_space2<-c(letters2," ")
+  Eng1<-c(" ",Engfulltext_train) %>% paste(collapse="") %>% 
+  strsplit(split="") %>% unlist %>% 
+  str_remove_all("[,.!'\"]")  %>% 
+  str_to_lower()
+
+  Eng2<-c(Engfulltext_train," ") %>% paste(collapse="") %>% 
+  strsplit(split="") %>% unlist %>% 
+ 
+  str_remove_all("[,.!'\"]")  %>% 
+  str_to_lower()
+
+  bigrams2<-table(Eng2,Eng1)
+
+  A_Eng_train<-matrix(0,43,43)
+  row.names(A_Eng_train)<-letters_space2
+  colnames(A_Eng_train)<-letters_space2
+  for (letteri in letters_space2)
+    for (letterj in letters_space2)
+      if ((letteri %in% row.names(bigrams2))&&(letterj %in%row.names(bigrams2)))A_Eng_train[letteri,letterj]<-bigrams2[letteri,letterj]
+  
+  A_Eng_train[is.nan(A_Eng_train)] = 0
+  A_Eng_train=apply(A_Eng_train, 1, function(x) x/sum(x))
+  A_Eng_train[is.nan(A_Eng_train)] = 0
+  
+  
+  return(A_Eng_train)
+}
+
+```
+
+
+```{r}
+A_Fren_train<-function(text_train_Fren){
+  
+  
+  Frenfulltext_train=NaN
+  A_Fren_train<-matrix(0,43,43)
+  n=nrow(text_train_Fren)
+  for (i in 1:n) {
+    if(text_train_Fren[i,2]==-1){
+      Frenfulltext_train=paste(Frenfulltext_train,text_train_Fren[i,1])
+    }
+  }
+  letters2=c("a","b","c","d","e","f","g","h","i","j","k","l","   m","n","o","p","q","r","s","t","u","v","w","x","y","z",'à','   â','æ','ç','é','è','ê','ë','î','ï','ô','œ','ù','û','ü','ÿ')
+  letters_space2<-c(letters2," ")
+  Fren1<-c(" ",Frenfulltext_train) %>% paste(collapse="") %>% 
+  strsplit(split="") %>% unlist %>% 
+  str_remove_all("[,.!'\"]")  %>% 
+  str_to_lower()
+
+  Fren2<-c(Frenfulltext_train," ") %>% paste(collapse="") %>% 
+  strsplit(split="") %>% unlist %>% 
+ 
+  str_remove_all("[,.!'\"]")  %>% 
+  str_to_lower()
+
+  bigrams2<-table(Fren2,Fren1)
+
+  A_Fren_train<-matrix(0,43,43)
+  row.names(A_Fren_train)<-letters_space2
+  colnames(A_Fren_train)<-letters_space2
+  for (letteri in letters_space2)
+    for (letterj in letters_space2)
+      if ((letteri %in% row.names(bigrams2))&&(letterj %in%             row.names(bigrams2)))            A_Fren_train[letteri,letterj]<-bigrams2[letteri,letterj]
+  
+  A_Fren_train[is.nan(A_Fren_train)] = 0
+  A_Fren_train=apply(A_Fren_train, 1, function(x) x/sum(x))
+  A_Fren_train[is.nan(A_Fren_train)] = 0
+  return(A_Fren_train)
+}
+
+```
+
+
+
+```{r}
+Pi_text_test=function(text_test){
+  Pi_test<-rep(0,43)
+      
+      
+  T<-c(" ",text_test[1]) %>% paste(collapse="")%>%       strsplit(split="") %>% unlist %>% 
+  str_remove_all("[ \n - ; : ? … -  ( ) ,  ' ’ - 0 1 2 3 4       5 6 7 8 9 .!'\"]")  %>% 
+  str_to_lower()
+  
+      T=dplyr::na_if(T, "")
+
+      T[is.na(T)] <- 0
+  
+      for (j in 1:(length(T)-1)){
+        if(T[j]=='0' & T[j+1]=="a"){
+          Pi_test[1]=Pi_test[1]+1
+        }
+    
+    
+        if(T[j]=='0' & T[j+1]=="b"){
+          Pi_test[2]=Pi_test[2]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="c"){
+          Pi_test[3]=Pi_test[3]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="d"){
+          Pi_test[4]=Pi_test[4]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="e"){
+          Pi_test[5]=Pi_test[5]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="f"){
+          Pi_test[6]=Pi_test[6]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="g"){
+          Pi_test[7]=Pi_test[7]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="h"){
+          Pi_test[8]=Pi_test[8]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="i"){
+          Pi_test[9]=Pi_test[9]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="j"){
+          Pi_test[10]=Pi_test[10]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="k"){
+          Pi_test[11]=Pi_test[11]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="l"){
+          Pi_test[12]=Pi_test[12]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="m"){
+          Pi_test[13]=Pi_test[13]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="n"){
+          Pi_test[14]=Pi_test[14]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="o"){
+          Pi_test[15]=Pi_test[15]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="p"){
+          Pi_test[16]=Pi_test[16]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="q"){
+          Pi_test[17]=Pi_test[17]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="r"){
+          Pi_test[18]=Pi_test[18]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="s"){
+          Pi_test[19]=Pi_test[19]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="t"){
+          Pi_test[20]=Pi_test[20]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="u"){
+          Pi_test[21]=Pi_test[21]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="v"){
+          Pi_test[22]=Pi_test[22]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="w"){
+          Pi_test[23]=Pi_test[23]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="x"){
+          Pi_test[24]=Pi_test[24]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="y"){
+          Pi_test[25]=Pi_test[25]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="z"){
+          Pi_test[26]=Pi_test[26]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="à"){
+          Pi_test[27]=Pi_test[27]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="â"){
+          Pi_test[28]=Pi_test[28]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="æ"){
+          Pi_test[29]=Pi_test[29]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="é"){
+          Pi_test[31]=Pi_test[31]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="è"){
+          Pi_test[32]=Pi_test[32]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="ê"){
+          Pi_test[33]=Pi_test[33]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="ë"){
+          Pi_test[34]=Pi_test[34]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="î"){
+          Pi_test[35]=Pi_test[35]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="ï"){
+          Pi_test[36]=Pi_test[36]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="ô"){
+          Pi_test[37]=Pi_test[37]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="œ"){
+          Pi_test[38]=Pi_test[38]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="ù"){
+          Pi_test[39]=Pi_test[39]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="û"){
+          Pi_test[40]=Pi_test[40]+1
+        }
+    
+  
+        if(T[j]=='0' & T[j+1]=="ü"){
+          Pi_test[41]=Pi_test[41]+1
+        }
+    
+        if(T[j]=='0' & T[j+1]=="ÿ"){
+          Pi_test[42]=Pi_test[42]+1
+        }
+    
+    
+    }
+      
+      
+      return(Pi_test/sum(Pi_test))
+      
+    }
+    
+```
+
+```{r}
+A_text_test<-function(text_test){
+  
+  
+  
+  A_test<-matrix(0,43,43)
+  letters2=c("a","b","c","d","e","f","g","h","i","j","k","l","   m","n","o","p","q","r","s","t","u","v","w","x","y","z",'à','   â','æ','ç','é','è','ê','ë','î','ï','ô','œ','ù','û','ü','ÿ')
+  letters_space2<-c(letters2," ")
+  Fren1<-c(" ",text_test[1]) %>% paste(collapse="") %>% 
+  strsplit(split="") %>% unlist %>% 
+  str_remove_all("[,.!'\"]")  %>% 
+  str_to_lower()
+
+  Fren2<-c(text_test[1]," ") %>% paste(collapse="") %>% 
+  strsplit(split="") %>% unlist %>% 
+ 
+  str_remove_all("[,.!'\"]")  %>% 
+  str_to_lower()
+
+  bigrams2<-table(Fren2,Fren1)
+
+  A_test<-matrix(0,43,43)
+  row.names(A_test)<-letters_space2
+  colnames(A_test)<-letters_space2
+  for (letteri in letters_space2)
+    for (letterj in letters_space2)
+      if ((letteri %in% row.names(bigrams2))&&(letterj %in%             row.names(bigrams2)))            A_test[letteri,letterj]<-bigrams2[letteri,letterj]
+  
+  A_test[is.nan(A_test)] = 0
+  A_test=apply(A_test, 1, function(x) x/sum(x))
+  A_test[is.nan(A_test)] = 0
+  return(A_test)
+}
+```
+
+
+```{r}
+ClassifierMarkov<-function(text_test,text_train){
+  A_empirique_Eng=A_Eng_train(text_train)
+  A_empirique_Fren=A_Fren_train(text_train)
+  Pi_empirique_Eng=Pi_Eng_train(text_train)
+  Pi_empirique_Fren=Pi_Fren_train(text_train)
+  A_test=A_text_test(text_test)
+  Pi_test=Pi_text_test(text_test)
+  dis_pi_fren=0
+  dis_pi_eng=0
+  dis_A_fren=0
+  dis_A_eng=0
+  
+  
+  for (i in 1:43) {
+    dis_pi_fren=dis_pi_fren+(Pi_empirique_Fren[i]-Pi_test[i])*(Pi_empirique_Fren[i]-Pi_test[i])
+    dis_pi_eng=dis_pi_eng+(Pi_empirique_Eng[i]-Pi_test[i])*(Pi_empirique_Eng[i]-Pi_test[i])
+  }
+  
+  dis_pi_fren=sqrt(dis_pi_fren)
+  dis_pi_eng=sqrt(dis_pi_eng)
+  
+  for (i in 1:43) {
+    for (j in 1:43) {
+      dis_A_eng=dis_A_eng+(A_empirique_Eng[i,j]-A_test[i,j])*(A_empirique_Eng[i,j]-A_test[i,j])
+      dis_A_fren=dis_A_fren+(A_empirique_Fren[i,j]-A_test[i,j])*(A_empirique_Fren[i,j]-A_test[i,j])
+    }
+    
+  }
+  
+  dis_A_eng=sqrt(dis_A_eng)
+  dis_A_fren=sqrt(dis_A_fren)
+  
+  if(dis_pi_fren<dis_pi_eng & dis_A_fren<dis_A_eng){
+    class_sortie=-1
+  }
+  
+  if(dis_pi_fren>dis_pi_eng & dis_A_fren>dis_A_eng){
+    class_sortie=1
+  }
+  
+  else{
+    if(dis_pi_fren+dis_A_fren<dis_pi_eng+dis_A_eng){
+      class_sortie=-1
+    }
+    else{
+      class_sortie=1
+    }
+  }
+  
+  if(class_sortie==text_test[2]$class){
+    #print("Le texte est de classe d'après les training data:")
+    #print(class_sortie)
+    #print("le vrai classe de ce texte est:")
+    #print(text_test[2]$class)
+    #print("le résulat est bon!")
+    return(1)
+  }
+  else{
+    #print("Le texte est de classe d'après les training data:")
+    #print(class_sortie)
+    #print("le vrai classe de ce texte est:")
+    #print(text_test[2]$class)
+    #print("le résulat n'est pas bon!")
+    return(0)
+  }
+}
+```
+
+
+3.3
+Validation croisée
+
+```{r}
+require(caret)
+folds <- createFolds(y=class,k=10)
+
+for(i in 1:10){
+  res=0
+  cpt=0
+  for (j in 1:length(folds[[i]])) {
+    res=res+ClassifierMarkov(langue_text[folds[[i]][j],],langue_text[-folds[[i]],])
+    cpt=cpt+1
+  }
+  
+  cat("le nombre de classification correste est:",res,"/",cpt,"\n")
+  
+}
+
+```
+
+
+
+
+
+EXO4
+4.1
+Simulation Anglais
+
+
+```{r}
+library(stringr)
+
+English=c("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"," ")
+
+SimulationEnglish_MC<-function(n){
+  X<-rep(0,n)
+  K<-length(Pi_Eng)
+  X[1]<-sample(English,prob = Pi_Eng,size = 1,replace=TRUE)
+  for (i in 2:n) {
+    pos=str_which(English, pattern = X[i-1])
+    X[i]<-sample(English,prob = A_Eng[pos,],size=1)
+  }
+  return(X)
+}
+```
+
+Simulation French
+
+
+```{r}
+French=c("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",'à','â','æ','ç','é','è','ê','ë','î','ï','ô','œ','ù','û','ü','ÿ',' ')
+
+
+SimulationFrench_MC<-function(n){
+  X<-rep(0,n)
+  K<-length(Pi_Fren)
+  X[1]<-sample(French,prob = Pi_Fren,size = 1,replace=TRUE)
+  for (i in 2:n) {
+    pos=str_which(French, pattern = X[i-1])
+    X[i]<-sample(French,prob = A_Fren[pos,],size=1)
+  }
+  return(X)
+}
+```
+
+
+
+```{r}
+SimulationFrench_MC(1000)
+```
+
+```{r}
+SimulationEnglish_MC(1000)
+
+```
+
+
+
+4.2
+Viterbi
+
+
+
+
+```{r}
+letters2=c("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",'à','â','æ','ç','é','è','ê','ë','î','ï','ô','œ','ù','û','ü','ÿ')
+letters_space2<-c(letters2," ")
+
+fulltext=paste(Engfulltext,Frenfulltext)
+total1<-c(" ",fulltext) %>% paste(collapse="") %>% 
+  # tokenize by character (strsplit returns a list, so unlist it)
+  strsplit(split="") %>% unlist %>% 
+  # remove instances of characters you don't care about
+   str_remove_all("[,.!'\"]")  %>% 
+   str_to_lower()
+
+total2<-c(fulltext," ") %>% paste(collapse="") %>% 
+  # tokenize by character (strsplit returns a list, so unlist it)
+  strsplit(split="") %>% unlist %>% 
+  # remove instances of characters you don't care about
+  str_remove_all("[,.!'\"]")  %>% 
+  str_to_lower()
+
+bigrams3<-table(total2,total1)
+
+A_Eng_Fren<-matrix(0,43,43)
+row.names(A_Eng_Fren)<-letters_space2
+colnames(A_Eng_Fren)<-letters_space2
+for (letteri in letters_space2)
+  for (letterj in letters_space2)
+    if ((letteri %in% row.names(bigrams3))&&(letterj %in% row.names(bigrams3))) A_Eng_Fren[letteri,letterj]<-bigrams3[letteri,letterj]
+
+
+A_Eng_Fren=apply(A_Eng_Fren, 1, function(x) x/sum(x))
+A_Eng_Fren[is.nan(A_Eng_Fren)] = 0
+```
+
+```{r}
+Pi_Eng_Fren=rep(0,43)
+for (i in 1:26) {
+  Pi_Eng_Fren[i]=(Pi_Eng[i]+Pi_Fren[i])/2
+}
+for (j in 27:42) {
+  Pi_Eng_Fren[j]=(Pi_Fren[j])/2
+}
+Pi_Eng_Fren[43]=(Pi_Eng[27]+Pi_Fren[43])/2
+```
+
+```{r}
+Fren_Eng=c("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",'à','â','æ','ç','é','è','ê','ë','î','ï','ô','œ','ù','û','ü','ÿ','E')
+
+
+SimulationEngFren_MC<-function(n){
+  X<-rep(0,n)
+  K<-length(Pi_Eng_Fren)
+  X[1]<-sample(Fren_Eng,prob = Pi_Eng_Fren,size = 1,replace=TRUE)
+  for (i in 2:n) {
+    pos=str_which(Fren_Eng, pattern = X[i-1])
+    X[i]<-sample(Fren_Eng,prob = A_Eng_Fren[pos,],size=1)
+  }
+  return(X)
+}
+```
+
+
+```{r}
+Viterbi<-function(Pi,A,B,X){
+ K<-nrow(A)
+ T<-length(X)
+ S<-matrix(0,K,T)
+ logV<-matrix(-Inf,K,T)
+ Zest<-rep(0,T)
+for (k in 1:K){
+   index1=which(name==X[1])
+   logV[k,1]<-log(B[index1,k])+log(Pi[k])
+   S[k,1]<-0
+ }
+# Forward
+ for (t in (2:T))
+   for (k in (1:K)){
+    indexk=which(name==X[k])
+    logV[k,t]=max(logV[,t-1]+log(A[,k])+log(B[indexk,k]))
+    S[k,t-1]=which.max(logV[,t-1]+log(A[,k])+log(B[indexk,k]))
+   }
+ # Backward
+ Zest[T]<-which.max(logV[,T])
+ for (t in (T-1):1)
+   Zest[t]<-S[Zest[t+1],t]
+ Zest[which(Zest==2)]<-(-1)
+ return(Zest)
+ }
+```
+
+
+
+```{r}
+
+English_data=F_21[1:15,]
+English=apply(English_data, 2, sum)
+English=English/sum(English)
+
+French_data=F_21[16:30,]
+French=apply(French_data, 2, sum)
+French=French/sum(French)
+
+B<-c(English,French)
+B<-matrix(B,byrow = FALSE,nrow = 43,ncol = 2)
+B[42,2]=1
+B[41,2]=1
+B[36,2]=1
+B[29,2]=1
+B<-apply(B, 1, function(x) x/sum(x))
+B=t(B)
+```
+
+```{r}
+A_total<-matrix(c(0.95,0.05,0.05,0.95),2,2)
+eigen.res<-eigen(t(A_total))
+Pi_total<-eigen.res$vectors[,1]
+```
+
+```{r}
+Viterbi(Pi_total,A_total,B,SimulationEngFren_MC(1000))
+```
+
